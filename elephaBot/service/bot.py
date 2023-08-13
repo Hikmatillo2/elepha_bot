@@ -69,7 +69,7 @@ def handle_user_input(message: Message):
         if message.text == 'Конечно!':
             # Проверка на то, подписался ли пользователь на канал
             user_in_channel = bot.get_chat_member(settings.CHANNEL_ID, int(chat_id))
-            print(user_in_channel)
+
             if user_in_channel.status != 'left':
                 bot.send_message(
                     chat_id,
