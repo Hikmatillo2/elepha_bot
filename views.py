@@ -2,10 +2,10 @@ import json
 
 import django.http
 import telebot
-from alertBot.service.bot import bot
+from elephaBot.service.bot import bot
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from alertBot.service.youtrack import assignee_alert, notify
+from elephaBot.service.youtrack import assignee_alert, notify
 import settings
 
 
@@ -40,4 +40,4 @@ def new_comment(request: django.http.HttpRequest):
     pass
 
 
-bot.set_webhook(url=f'bot.hikmatillo.ru/{settings.BOT_TOKEN}')
+# bot.set_webhook(url=f'bot.hikmatillo.ru/{settings.BOT_TOKEN}')

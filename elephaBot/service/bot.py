@@ -1,5 +1,5 @@
 import settings
-from alertBot.service.database import *
+from elephaBot.service.database import *
 from telebot import TeleBot
 from telebot.types import Message
 
@@ -13,7 +13,6 @@ def start_command(message: Message):
             message.chat.id,
             "Вы подписались на рассылку уведомлений от сервиса directorvzagorin.youtrack.cloud!"
         )
-
 
 @bot.message_handler(content_types=['text'])
 def text(message: Message):

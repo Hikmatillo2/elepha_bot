@@ -1,4 +1,4 @@
-from alertBot.models import *
+from elephaBot.models import *
 
 
 def check_user_exists(telegram_id: str) -> bool:
