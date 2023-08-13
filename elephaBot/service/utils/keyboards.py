@@ -1,7 +1,7 @@
 import telebot
 
 
-class InlineKeyboard(telebot.types.InlineKeyboardMarkup):  #
+class InlineKeyboard(telebot.types.InlineKeyboardMarkup):
     def __init__(self, text: list[list[str, str]] | list[list[list[str, str]]]):
         super().__init__()
         self.text = text
@@ -16,7 +16,7 @@ class InlineKeyboard(telebot.types.InlineKeyboardMarkup):  #
 
 
 class Keyboard(telebot.types.ReplyKeyboardMarkup):
-    def __init__(self, text: list[str], resize: bool = True):
+    def __init__(self, text: list[str] | list[list[str]], resize: bool = True):
         super().__init__()
         self.resize_keyboard = resize
         self.text = text

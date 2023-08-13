@@ -95,9 +95,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-BOT_TOKEN = os.environ.get('BOT_TOKEN', '')
+BOT_TOKEN = os.environ.get('BOT_TOKEN', '5208812086:AAEZYEDe6j3Xc1hPzwCREoqhwGjU54nor_I')
 
-# YOUTRACK_TOKEN = os.environ.get('YOUTRACK_TOKEN', '')
+CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1001837403313')
 
 STATIC_URL = 'static/'
 

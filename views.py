@@ -5,7 +5,6 @@ import telebot
 from elephaBot.service.bot import bot
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from elephaBot.service.youtrack import assignee_alert, notify
 import settings
 
 
@@ -17,27 +16,6 @@ def get_message(request: django.http.HttpRequest):
         bot.process_new_updates([update])
         return HttpResponse('!', 200)
     return HttpResponse('Method Not Allowed', 405)
-
-
-@csrf_exempt
-def new_issue(request: django.http.HttpRequest):
-    data = json.loads(request.body.decode('utf-8'))
-    if assignee_alert(data):
-        return HttpResponse('!', 200)
-    return HttpResponse('Error', 404)
-
-
-@csrf_exempt
-def issue_state(request: django.http.HttpRequest):
-    data = json.loads(request.body.decode('utf-8'))
-    if notify(data):
-        return HttpResponse('!', 200)
-    return HttpResponse('Error', 404)
-
-
-@csrf_exempt
-def new_comment(request: django.http.HttpRequest):
-    pass
 
 
 # bot.set_webhook(url=f'bot.hikmatillo.ru/{settings.BOT_TOKEN}')
