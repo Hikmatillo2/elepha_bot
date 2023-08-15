@@ -17,18 +17,32 @@ def start_command(message: Message):
     if not check_user_exists(chat_id):
         add_user(chat_id, str(message.from_user.username))
 
-    bot.send_message(
-        chat_id,
-        TEXTS['/start'][0],
-        parse_mode='html',
-    )
+    user = get_user_by_id(chat_id)
 
-    bot.send_message(
-        chat_id,
-        TEXTS['/start'][1],
-        reply_markup=Keyboard(['Конечно!']),
-        parse_mode='html',
-    )
+    # Проверка на то, подписался ли пользователь на канал
+    user_in_channel = bot.get_chat_member(settings.CHANNEL_ID, int(chat_id))
+
+    if user.completed:
+        pass
+    elif user_in_channel.status != 'left':
+        bot.send_message(
+            chat_id,
+            TEXTS['/start'][0],
+            parse_mode='html',
+        )
+
+        bot.send_message(
+            chat_id,
+            TEXTS['/start'][1],
+            reply_markup=Keyboard(['Да']),
+            parse_mode='html',
+        )
+    else:
+        bot.send_message(
+            chat_id,
+            TEXTS['not_subscribed'][0],
+            parse_mode='html',
+        )
 
 
 @bot.message_handler(content_types=['contact'])
@@ -66,30 +80,24 @@ def handle_user_input(message: Message):
     user_condition = BotUserCondition.objects.filter(user=user)[0]
 
     if user is not None and user_condition is not None:
-        if message.text == 'Конечно!':
+        if message.text == 'Да':
             # Проверка на то, подписался ли пользователь на канал
             user_in_channel = bot.get_chat_member(settings.CHANNEL_ID, int(chat_id))
 
             if user_in_channel.status != 'left':
                 bot.send_message(
                     chat_id,
-                    TEXTS[message.text][0],
+                    TEXTS['Конечно'][0],
                     parse_mode='html',
                 )
 
                 user_condition.on_first_name_input = True
-            else:
-                bot.send_message(
-                    chat_id,
-                    TEXTS['not_subscribed'][0],
-                    parse_mode='html',
-                )
         else:
-            if check_user_message(message.text):
+            if check_user_message(message.text) or check_user_message(message.text, email=True):
                 if user_condition.on_first_name_input:
                     bot.send_message(
                         chat_id,
-                        TEXTS['Конечно!'][1],
+                        TEXTS['Конечно'][1],
                         parse_mode='html',
                     )
 
@@ -99,7 +107,7 @@ def handle_user_input(message: Message):
                 elif user_condition.on_second_name_input:
                     bot.send_message(
                         chat_id,
-                        TEXTS['Конечно!'][2],
+                        TEXTS['Конечно'][2],
                         parse_mode='html',
                     )
 
@@ -114,7 +122,7 @@ def handle_user_input(message: Message):
 
                         bot.send_message(
                             chat_id,
-                            TEXTS['Конечно!'][3],
+                            TEXTS['Конечно'][3],
                             parse_mode='html',
                             reply_markup=keyboard,
                         )
