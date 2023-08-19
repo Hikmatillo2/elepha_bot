@@ -10,19 +10,22 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+import sentry_sdk
 from pathlib import Path
+from sentry_sdk.integrations.django import DjangoIntegration
 
 BASE_DIR = Path(__file__).resolve().parent
-
+DOMAIN = os.environ.get("DOMAIN", '')
 SECRET_KEY = 'django-insecure-@$w+#m)0)ba%vvm86sodc-cnk_=p0h8ti1x2junr$%730n+04q'
 
 DEBUG = False if os.environ.get("DEBUG", '') in ["False", False] else True
 
-ALLOWED_HOSTS = ["crm.hikmatillo.ru", '0.0.0.0', '192.168.0.28', '127.0.0.1', '31.173.240.248', 'localhost']
+ALLOWED_HOSTS = [DOMAIN, '0.0.0.0', '192.168.0.28', '127.0.0.1', '31.173.240.248', 'localhost']
 if not DEBUG:
-    CSRF_TRUSTED_ORIGINS = ['https://crm.hikmatillo.ru', 'https://clients.di.media']
+    CSRF_TRUSTED_ORIGINS = [f'https://{DOMAIN}']
+
 if os.environ.get("SERVER", '') in ["True", True]:
-    CSRF_TRUSTED_ORIGINS = ['https://crm.hikmatillo.ru', 'https://clients.di.media']
+    CSRF_TRUSTED_ORIGINS = [f'https://{DOMAIN}']
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -104,3 +107,20 @@ STATIC_URL = 'static/'
 STATIC_ROOT = '/srv/telegram_admin/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+sentry_sdk.init(
+    dsn="https://6094f91d43b65eb3d3719e1e909a7c00@o1330757.ingest.sentry.io/4505726407147520",
+    integrations=[DjangoIntegration()],
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True,
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+    # To set a uniform sample rate
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production,
+    profiles_sample_rate=1.0,
+)
