@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sleep 10
-psql postgresql://postgres:postgres@database -f psql.sql
+psql postgresql://postgres:d4a8f0435b2b866f855323d7d021a79164d2e13b@database -f psql.sql
 
 service nginx start
 # database postgresql start
