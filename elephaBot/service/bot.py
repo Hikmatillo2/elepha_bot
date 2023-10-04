@@ -105,16 +105,11 @@ def handle_user_input(message: Message):
                     user_condition.on_first_name_input = False
                     user_condition.on_second_name_input = True
                 elif user_condition.on_second_name_input:
-                    bot.send_message(
-                        chat_id,
-                        TEXTS['Конечно'][2],
-                        parse_mode='html',
-                    )
-
-                    user.second_name = message.text
-                    user_condition.on_second_name_input = False
-                    user_condition.on_email_input = True
-                elif user_condition.on_email_input:
+                    # bot.send_message(
+                    #     chat_id,
+                    #     TEXTS['Конечно'][2],
+                    #     parse_mode='html',
+                    # )
                     if check_user_message(message.text, email=True):
                         keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
                         button_phone = types.KeyboardButton(text="Отправить номер телефона", request_contact=True)
@@ -127,8 +122,9 @@ def handle_user_input(message: Message):
                             reply_markup=keyboard,
                         )
 
-                        user.email = message.text
-                        user_condition.on_email_input = False
+
+                        user.second_name = message.text
+                        user_condition.on_second_name_input = False
                         user_condition.on_phone_number_input = True
                     else:
                         bot.send_message(
@@ -136,6 +132,29 @@ def handle_user_input(message: Message):
                             "Данные введены некорректно, попробуйте снова",
                             parse_mode='html',
                         )
+
+                # elif user_condition.on_email_input:
+                #     if check_user_message(message.text, email=True):
+                #         keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+                #         button_phone = types.KeyboardButton(text="Отправить номер телефона", request_contact=True)
+                #         keyboard.add(button_phone)
+                #
+                #         bot.send_message(
+                #             chat_id,
+                #             TEXTS['Конечно'][3],
+                #             parse_mode='html',
+                #             reply_markup=keyboard,
+                #         )
+                #
+                #         user.email = message.text
+                #         user_condition.on_email_input = False
+                #         user_condition.on_phone_number_input = True
+                #     else:
+                #         bot.send_message(
+                #             chat_id,
+                #             "Данные введены некорректно, попробуйте снова",
+                #             parse_mode='html',
+                #         )
             else:
                 bot.send_message(
                     chat_id,
