@@ -30,7 +30,7 @@ services:
         - DOMAIN=bot.elephahealth.com
         - CHANNEL_ID=-1001550428902
         - SERVER=True
-        - DEBUG=False
+        - DEBUG=True
       ports:
         - "87:88"
       depends_on:
