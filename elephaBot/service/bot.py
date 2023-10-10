@@ -110,7 +110,7 @@ def handle_user_input(message: Message):
                     #     TEXTS['Конечно'][2],
                     #     parse_mode='html',
                     # )
-                    if check_user_message(message.text, email=True):
+                    if check_user_message(message.text):
                         keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
                         button_phone = types.KeyboardButton(text="Отправить номер телефона", request_contact=True)
                         keyboard.add(button_phone)
